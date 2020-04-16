@@ -1,7 +1,20 @@
 import convertSheetToJSON from "../convertSheetToJSON";
 
 export const map = {
-  test: "a",
+  siteName: "Organization.Organization Name*",
+  siteStreetAddress: "Organization.Street Address*",
+  siteCity: "Organization.City*",
+  siteState: "Organization.State",
+  siteZip: "Organization.Zip*",
+  contactPhone: "Organization.General Phone*",
+  contactEmail: "Organization.Organization Email",
+  siteType: () => [],
+  siteCountry: () => "USA",
+  siteSubType: () => [],
+  "Site Needs/Updates Forms": () => [],
+  Claims: () => [],
+  url: "Organization.Website",
+  "Notes (possibly Pre-COVID)": "Organization.Notes",
 };
 
 export const TYPE = "three_sheet";

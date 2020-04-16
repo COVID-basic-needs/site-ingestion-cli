@@ -28,4 +28,34 @@ describe("convert-food-panty-data", () => {
 
     expect(converted[2].contactEmail).toEqual("srmoffice@srm-hc.org");
   });
+
+  it("parses a three sheet file", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Colorado_Data_3_Sheet.xlsx`
+    );
+
+    const firstRow = converted[0];
+
+    expect(firstRow).toEqual({
+      siteName: "Food Bank for Larimer Country",
+      siteStreetAddress: "5706 Wright Dr",
+      siteCity: "Loveland",
+      siteState: "CO",
+      siteZip: "80538",
+      contactPhone: "(970) 493-4477",
+      contactEmail: "",
+      siteType: [],
+      siteCountry: "USA",
+      siteSubType: [],
+      "Site Needs/Updates Forms": [],
+      Claims: [],
+      url: "https://foodbanklarimer.org/",
+      "Notes (possibly Pre-COVID)": "",
+    });
+
+    expect(converted[3].contactEmail).toEqual("info@communityfoodshare.org");
+    expect(converted[9]["Notes (possibly Pre-COVID)"]).toEqual(
+      "Please bring bags, boxes or baskets to transport items."
+    );
+  });
 });
