@@ -1,4 +1,4 @@
-export default {
+export const map = {
   siteName: "Organization Name",
   siteStreetAddress: "Street Address",
   siteCity: "City",
@@ -14,4 +14,10 @@ export default {
   url: "Website",
   "Notes (possibly Pre-COVID)": (fields) =>
     `${fields["General Services Details"]}\n${fields["Notes"]}`,
+};
+
+export const TYPE = "flat";
+
+export const sheetIsType = (sheets) => {
+  return sheets.length === 1;
 };

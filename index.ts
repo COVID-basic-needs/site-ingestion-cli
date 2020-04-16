@@ -1,6 +1,5 @@
 import xlsx from "node-xlsx";
-
-import flatMap from "./fieldMaps/flat";
+import getFieldMapForFile from "./fieldMaps/getFieldMapForFile";
 
 const convertToJson = (data) => {
   const headers = data.shift();
@@ -20,15 +19,20 @@ type FieldMap = {
 };
 
 export default async (fileName) => {
-  const sheet = xlsx.parse(fileName);
-  const firstSheet = sheet[0].data;
+  const sheets = xlsx.parse(fileName);
+  const fieldMap = getFieldMapForFile(fileName);
+
+  const firstSheet = sheets[0].data;
 
   const data = convertToJson(firstSheet);
 
   return data.map((row) => {
-    return Object.entries(flatMap as FieldMap).reduce((out, [field, map]) => {
-      out[field] = typeof map === "function" ? map(row) : row[map];
-      return out;
-    }, {});
+    return Object.entries(fieldMap.map as FieldMap).reduce(
+      (out, [field, map]) => {
+        out[field] = typeof map === "function" ? map(row) : row[map];
+        return out;
+      },
+      {}
+    );
   });
 };
