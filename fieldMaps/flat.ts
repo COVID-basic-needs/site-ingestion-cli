@@ -1,3 +1,5 @@
+import convertSheetToJSON from "../convertSheetToJSON";
+
 export const map = {
   siteName: "Organization Name",
   siteStreetAddress: "Street Address",
@@ -20,4 +22,8 @@ export const TYPE = "flat";
 
 export const sheetIsType = (sheets) => {
   return sheets.length === 1;
+};
+
+export const getData = (fileName) => {
+  return convertSheetToJSON(fileName);
 };
