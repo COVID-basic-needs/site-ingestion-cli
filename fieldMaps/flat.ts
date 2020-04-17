@@ -27,3 +27,5 @@ export const sheetIsType = (sheets) => {
 export const getData = (fileName) => {
   return convertSheetToJSON(fileName);
 };
+
+export const isValidRow = (row) => !!row.ID;

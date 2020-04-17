@@ -20,7 +20,6 @@ describe("convert-food-panty-data/cli", () => {
       bashCommand: `yarn start --dir ${CONVERT_FOLDER}`,
     });
 
-    console.log(error.mock.calls);
     expect(error.mock.calls.length).toBe(0);
 
     expect(code).toBe(0);
