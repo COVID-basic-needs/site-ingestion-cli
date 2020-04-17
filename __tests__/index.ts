@@ -58,4 +58,12 @@ describe("convert-food-panty-data", () => {
       "Please bring bags, boxes or baskets to transport items."
     );
   });
+
+  it("deletes blank rows", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Arizona_Data_Flat.xlsx`
+    );
+
+    expect(converted.find((row) => !row.siteName)).toBeFalsy();
+  });
 });

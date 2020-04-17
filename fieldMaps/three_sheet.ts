@@ -58,3 +58,5 @@ export const getData = (fileName) => {
     return { ...orgRowMapped, ...programRowMapped };
   }, []);
 };
+
+export const isValidRow = (row) => !!row["Organization.ID"];

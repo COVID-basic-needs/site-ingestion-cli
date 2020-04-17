@@ -8,7 +8,7 @@ type FieldMap = {
 export default (fileName) => {
   const fieldMap = getFieldMapForFile(fileName);
 
-  const data = fieldMap.getData(fileName);
+  const data = fieldMap.getData(fileName).filter(fieldMap.isValidRow);
 
   return data.map((row) => {
     return Object.entries(fieldMap.map as FieldMap).reduce(
