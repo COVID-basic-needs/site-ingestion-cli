@@ -28,4 +28,4 @@ export const getData = (fileName) => {
   return convertSheetToJSON(fileName);
 };
 
-export const isValidRow = (row) => !!row.ID;
+export const isValidRow = (row) => !!row["Organization Name"];
