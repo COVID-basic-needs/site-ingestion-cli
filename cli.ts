@@ -10,11 +10,12 @@ import convert from ".";
 
   const files = await fs.readdir(dir);
 
-  files.forEach(async (file) => {
+  for (const i in files) {
+    const file = files[i];
     const json = await convert(`${dir}/${file}`);
     console.log(json);
     console.log(`Converted ${file} successfully`);
-  });
+  }
 
   console.log("Done converting");
 })();
