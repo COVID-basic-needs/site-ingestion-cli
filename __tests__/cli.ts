@@ -7,6 +7,7 @@ const TEST_DATA = `${__dirname}/../data`;
 const CONVERT_FOLDER = `${__dirname}/../convertDataTest`;
 
 describe("convert-food-panty-data/cli", () => {
+  jest.setTimeout(20000);
   beforeEach((done) => {
     ncp(TEST_DATA, CONVERT_FOLDER, done);
   });

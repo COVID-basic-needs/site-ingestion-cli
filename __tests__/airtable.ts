@@ -1,9 +1,9 @@
-require('dotenv').config()
+require('dotenv').config();
 const ncp = require("ncp").ncp;
 const rimraf = require("rimraf");
 const Airtable = require('airtable');
 
-const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.env.AIRTABLE_BASE_ID);
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
 
 // TODO:
 // - expand preexisting test to pushToAirtable('../data/Arizona_Data_Flat.xlsx') to TEST_SITE_TABLE
@@ -28,6 +28,7 @@ const TEST_DATA = `${__dirname}/../data`;
 const CONVERT_FOLDER = `${__dirname}/../convertDataTest`;
 
 describe("convert-food-panty-data/airtable", () => {
+  jest.setTimeout(20000);
   beforeEach((done) => {
     ncp(TEST_DATA, CONVERT_FOLDER, done);
   });
@@ -36,7 +37,7 @@ describe("convert-food-panty-data/airtable", () => {
     rimraf(CONVERT_FOLDER, done);
   });
 
-  it("converts a directory of xlsx files & pushes half to Airtable", async () => {
+  it("converts a directory of xlsx files & pushes half to Airtable", async (done) => {
     const { code, error, output }: ITestCLIReturn = await testCLI({
       bashCommand: `yarn start --dir ${CONVERT_FOLDER}`,
     });
@@ -45,18 +46,19 @@ describe("convert-food-panty-data/airtable", () => {
 
     expect(code).toBe(0);
 
-    expect(output).toBeCalledWith(
-      expect.stringContaining("Converted Arizona_Data_Flat.xlsx successfully")
-    );
+    let recordCount = 0;
 
-    expect(output).toBeCalledWith(
-      expect.stringContaining(
-        "Converted Colorado_Data_3_Sheet.xlsx successfully"
-      )
-    );
-
-    expect(output).toBeCalledWith(expect.stringContaining("Done converting"));
-
-    expect(pushToAirtable())
+    const records = base(process.env.AIRTABLE_SITE_TABLE).select({
+      maxRecords: 100,
+      view: "All"
+    }).eachPage(function page(records, fetchNextPage) {
+      recordCount += records.length;
+      fetchNextPage();
+    }, function (err) {
+      console.log(err);
+      expect(err).toBeFalsy();
+      expect(recordCount).toEqual(38);
+      done();
+    });
   });
 });

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "ts-node cli.ts",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "license": "MIT",
   "devDependencies": {
