@@ -20,7 +20,7 @@ export const map = {
 export const TYPE = "three_sheet";
 
 export const sheetIsType = (sheets) => {
-  return sheets.length === 3;
+  return sheets[0].name === "Organization" && sheets[1].name === "Program";
 };
 
 export const getData = (fileName) => {
@@ -32,9 +32,12 @@ export const getData = (fileName) => {
   // label all keys as Program.key
   return firstSheet.map((row) => {
     // join with Program on key "ID" = "Organization ID *"
-    const programRow = sheets.Program.find(
-      (programRow) => programRow["Organization ID*"] === row.ID
-    );
+    const programRow = sheets.Program.find((programRow) => {
+      return (
+        programRow["Organization ID*"] === row.ID ||
+        programRow["Organization Name*"] === row["Organization Name*"]
+      );
+    });
 
     const orgRowMapped = Object.entries(row).reduce((out, [key, value]) => {
       // relabel all keys as Organization.key
@@ -59,4 +62,4 @@ export const getData = (fileName) => {
   }, []);
 };
 
-export const isValidRow = (row) => !!row["Organization.ID"];
+export const isValidRow = (row) => !!row["Organization.Organization Name*"];

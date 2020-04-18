@@ -59,6 +59,17 @@ describe("convert-food-panty-data", () => {
     );
   });
 
+  it("parses a three sheet file and join by organization name", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Florida_Data_Join_By_Organization.xlsx`
+    );
+
+    const joinedRow = converted[37];
+
+    expect(joinedRow.siteName).toEqual("Calvary's Community Cupboard");
+    expect(joinedRow.contactEmail).toEqual("cupboard@calvaryalive.org");
+  });
+
   it("deletes blank rows", async () => {
     const converted = await convert(
       `${__dirname}/../data/Arizona_Data_Flat.xlsx`
