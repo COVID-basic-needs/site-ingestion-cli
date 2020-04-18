@@ -55,10 +55,29 @@ describe("convert-food-panty-data/airtable", () => {
       recordCount += records.length;
       fetchNextPage();
     }, function (err) {
-      console.log(err);
       expect(err).toBeFalsy();
       expect(recordCount).toEqual(38);
       done();
     });
+
+    expect(records[0]).toEqual({
+      siteName: "Victory Worship Center —\nBethlehem House Pantry* ",
+      siteStreetAddress: "2561 W Ruthrauff Rd",
+      siteCity: "Tucson",
+      siteState: "AZ",
+      siteZip: "85705",
+      contactPhone: "520-293-6386",
+      contactEmail: "",
+      siteType: [],
+      siteCountry: "USA",
+      siteSubType: [],
+      "Site Needs/Updates Forms": [],
+      Claims: [],
+      url: "www.vwcaz.org",
+      "Notes (possibly Pre-COVID)":
+        "Food service -— Sat 6-7:30 AM\n\nLocated in the Fellowship Hall (building)\nof the Ruthrauff Campus.\nLanguages: English, Spanish",
+    });
+
+    expect(records[2].contactEmail).toEqual("srmoffice@srm-hc.org");
   });
 });
