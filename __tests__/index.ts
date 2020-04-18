@@ -59,11 +59,31 @@ describe("convert-food-panty-data", () => {
     );
   });
 
+  it("parses a three sheet file and join by organization name", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Florida_Data_Join_By_Organization.xlsx`
+    );
+
+    const joinedRow = converted[37];
+
+    expect(joinedRow.siteName).toEqual("Calvary's Community Cupboard");
+    expect(joinedRow.contactEmail).toEqual("cupboard@calvaryalive.org");
+  });
+
   it("deletes blank rows", async () => {
     const converted = await convert(
       `${__dirname}/../data/Arizona_Data_Flat.xlsx`
     );
 
     expect(converted.find((row) => !row.siteName)).toBeFalsy();
+  });
+
+  it("parses a three sheet file with organizations and service sheet", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Georgia_Data_3_Sheet_Service.xlsx`
+    );
+
+    expect(converted[0].siteName).toEqual("Malachi's Storehouse");
+    expect(converted[0].contactEmail).toEqual("malachis@stpat.net");
   });
 });
