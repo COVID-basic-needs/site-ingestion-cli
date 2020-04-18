@@ -77,4 +77,13 @@ describe("convert-food-panty-data", () => {
 
     expect(converted.find((row) => !row.siteName)).toBeFalsy();
   });
+
+  it("parses a three sheet file with organizations and service sheet", async () => {
+    const converted = await convert(
+      `${__dirname}/../data/Georgia_Data_3_Sheet_Service.xlsx`
+    );
+
+    expect(converted[0].siteName).toEqual("Malachi's Storehouse");
+    expect(converted[0].contactEmail).toEqual("malachis@stpat.net");
+  });
 });

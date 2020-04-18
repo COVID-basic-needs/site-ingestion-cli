@@ -20,7 +20,10 @@ export const map = {
 export const TYPE = "three_sheet";
 
 export const sheetIsType = (sheets) => {
-  return sheets[0].name === "Organization" && sheets[1].name === "Program";
+  return (
+    sheets[0].name === "Organization" &&
+    (sheets[1].name === "Program" || sheets[1].name === "Service")
+  );
 };
 
 export const getData = (fileName) => {
@@ -31,8 +34,9 @@ export const getData = (fileName) => {
   // go through first sheet (organization)
   // label all keys as Program.key
   return firstSheet.map((row) => {
+    const secondSheet = sheets.Program || sheets.Service;
     // join with Program on key "ID" = "Organization ID *"
-    const programRow = sheets.Program.find((programRow) => {
+    const programRow = secondSheet.find((programRow) => {
       return (
         programRow["Organization ID*"] === row.ID ||
         programRow["Organization Name*"] === row["Organization Name*"]
