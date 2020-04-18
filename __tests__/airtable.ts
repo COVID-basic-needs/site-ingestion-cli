@@ -4,23 +4,23 @@ const rimraf = require("rimraf");
 const Airtable = require('airtable');
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
-
+const table = base('TEST_SITE_TABLE');
 // TODO:
-// - expand preexisting test to pushToAirtable('../data/Arizona_Data_Flat.xlsx') to TEST_SITE_TABLE
-// - ensure the data made it to TEST_SITE_TABLE by:
-//     1) counting entries
-//     2) comparing values of 1st row
-//     3) searching for a field with a value that was blank in the first row <-- what does this do?
-//        (just the simple 'email' check you did already)
-//   (at this point the test should fail as there is no pushToAirtable function)
-// - push the same first half of temp data to ensure duplicates are found & pushed to TEST_SITE_DUPLICATES
+// [*] expand preexisting test to pushToAirtable('../data/Arizona_Data_Flat.xlsx') to TEST_SITE_TABLE
+// [*] ensure the data made it to TEST_SITE_TABLE by:
+// [*]   1) counting entries
+// [*]   2) comparing values of 1st row
+// [*]   3) searching for a field with a value that was blank in the first row <-- what does this do?
+//          (just the simple 'email' check you did already)
+//    (at this point the test should fail as there is no pushToAirtable function)
+// [] push the same first half of temp data to ensure duplicates are found & pushed to TEST_SITE_DUPLICATES
 //   (duplicates are identified by matching siteName and siteStreetAddress)
-// - ensure the data made it to TEST_SITE_DUPLICATES by:
-//     1) counting entries on TEST_SITE_TABLE seeing that they didn't get added to
-//     2) counting entries on TEST_SITE_DUPLICATES seeing that they all got added there
-//     3) comparing values of 1st row
-// - ensure the second half of the test data can be pushed without issue & without duplicates
-// - erase all the test data in airtable
+// [] ensure the data made it to TEST_SITE_DUPLICATES by:
+// []   1) counting entries on TEST_SITE_TABLE seeing that they didn't get added to
+// []   2) counting entries on TEST_SITE_DUPLICATES seeing that they all got added there
+// []   3) comparing values of 1st row
+// [] ensure the second half of the test data can be pushed without issue & without duplicates
+// [] erase all the test data in airtable
 
 import testCLI, { ITestCLIReturn } from "@node-cli-toolkit/test-cli";
 
@@ -34,7 +34,22 @@ describe("convert-food-panty-data/airtable", () => {
   });
 
   afterEach((done) => {
-    rimraf(CONVERT_FOLDER, done);
+    table.select().all().then(records => {
+      let ids = [];
+      records.forEach(record => {
+        ids.push(record.id);
+      });
+      table.destroy(ids, (err, deletedRecords) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+    }).then(() => {
+      rimraf(CONVERT_FOLDER, done);
+    }).catch(err => {
+      console.error(err);
+    });
   });
 
   it("converts a directory of xlsx files & pushes half to Airtable", async (done) => {
@@ -48,7 +63,7 @@ describe("convert-food-panty-data/airtable", () => {
 
     let recordCount = 0;
 
-    const records = base(process.env.AIRTABLE_SITE_TABLE).select({
+    const records = table.select({
       maxRecords: 100,
       view: "All"
     }).eachPage(function page(records, fetchNextPage) {
@@ -57,7 +72,6 @@ describe("convert-food-panty-data/airtable", () => {
     }, function (err) {
       expect(err).toBeFalsy();
       expect(recordCount).toEqual(38);
-      done();
     });
 
     expect(records[0]).toEqual({
