@@ -2,6 +2,7 @@ const { promises: fs } = require("fs");
 const { dir } = require("yargs").argv;
 
 import convert from ".";
+import pushToAirtable from "./pushToAirtable";
 
 (async () => {
   if (!dir) {
@@ -9,13 +10,18 @@ import convert from ".";
   }
 
   const files = await fs.readdir(dir);
+  let allData = [];
 
   for (const i in files) {
     const file = files[i];
     const json = await convert(`${dir}/${file}`);
-    console.log(json);
-    console.log(`Converted ${file} successfully`);
+    allData = [...allData, ...json];
+    console.log(`Converted ${file} successfully (${json.length} rows)`);
   }
 
-  console.log("Done converting");
+  console.log("Done converting, beginning push to Airtable...");
+
+  const numPushed = await pushToAirtable(allData);
+
+  console.log(`Pushed ${numPushed} rows to Airtable table ${process.env.AIRTABLE_SITE_TABLE}`);
 })();
