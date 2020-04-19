@@ -10,12 +10,12 @@ import pushToAirtable from "./pushToAirtable";
   }
 
   const files = await fs.readdir(dir);
-  const allData = [];
+  let allData = [];
 
   for (const i in files) {
     const file = files[i];
     const json = await convert(`${dir}/${file}`);
-    json.forEach(site => { allData.push(site); });
+    allData = [...allData, ...json];
     console.log(`Converted ${file} successfully (${json.length} rows)`);
   }
 
