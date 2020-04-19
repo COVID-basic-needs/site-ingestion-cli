@@ -3,7 +3,7 @@ import convertSheetToJSON from "../convertSheetToJSON";
 describe("convert-food-panty-data/convertSheetToJSON", () => {
   it("converts a flat file", async () => {
     const converted = convertSheetToJSON(
-      `${__dirname}/../data/Arizona_Data_Flat.xlsx`
+      `${__dirname}/../testData/Arizona_Data_Flat.xlsx`
     );
 
     // integer
@@ -20,7 +20,7 @@ describe("convert-food-panty-data/convertSheetToJSON", () => {
 
   it("converts a multi sheet file", async () => {
     const converted = convertSheetToJSON(
-      `${__dirname}/../data/Colorado_Data_3_Sheet.xlsx`
+      `${__dirname}/../testData/Colorado_Data_3_Sheet.xlsx`
     );
 
     // first sheet

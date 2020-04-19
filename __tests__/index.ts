@@ -3,7 +3,7 @@ import convert from "../";
 describe("convert-food-panty-data", () => {
   it("parses a flat file", async () => {
     const converted = await convert(
-      `${__dirname}/../data/Arizona_Data_Flat.xlsx`
+      `${__dirname}/../testData/Arizona_Data_Flat.xlsx`
     );
 
     const firstRow = converted[0];
@@ -31,7 +31,7 @@ describe("convert-food-panty-data", () => {
 
   it("parses a three sheet file", async () => {
     const converted = await convert(
-      `${__dirname}/../data/Colorado_Data_3_Sheet.xlsx`
+      `${__dirname}/../testData/Colorado_Data_3_Sheet.xlsx`
     );
 
     const firstRow = converted[0];
@@ -61,7 +61,7 @@ describe("convert-food-panty-data", () => {
 
   it("parses a three sheet file and join by organization name", async () => {
     const converted = await convert(
-      `${__dirname}/../data/Florida_Data_Join_By_Organization.xlsx`
+      `${__dirname}/../testData/Florida_Data_Join_By_Organization.xlsx`
     );
 
     const joinedRow = converted[37];
@@ -72,7 +72,7 @@ describe("convert-food-panty-data", () => {
 
   it("deletes blank rows", async () => {
     const converted = await convert(
-      `${__dirname}/../data/Arizona_Data_Flat.xlsx`
+      `${__dirname}/../testData/Arizona_Data_Flat.xlsx`
     );
 
     expect(converted.find((row) => !row.siteName)).toBeFalsy();
@@ -80,7 +80,7 @@ describe("convert-food-panty-data", () => {
 
   it("parses a three sheet file with organizations and service sheet", async () => {
     const converted = await convert(
-      `${__dirname}/../data/Georgia_Data_3_Sheet_Service.xlsx`
+      `${__dirname}/../testData/Georgia_Data_3_Sheet_Service.xlsx`
     );
 
     expect(converted[0].siteName).toEqual("Malachi's Storehouse");

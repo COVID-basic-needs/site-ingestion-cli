@@ -3,7 +3,7 @@ import { getData } from "../three_sheet";
 describe("convert-food-panty-data/fieldMaps/three_sheet/getData", () => {
   it("correctly merges Organization and Program", async () => {
     const data = await getData(
-      `${__dirname}/../../data/Colorado_Data_3_Sheet.xlsx`
+      `${__dirname}/../../testData/Colorado_Data_3_Sheet.xlsx`
     );
 
     // first sheet

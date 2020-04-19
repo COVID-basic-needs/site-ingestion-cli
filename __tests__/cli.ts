@@ -3,7 +3,7 @@ const rimraf = require("rimraf");
 
 import testCLI, { ITestCLIReturn } from "@node-cli-toolkit/test-cli";
 
-const TEST_DATA = `${__dirname}/../data`;
+const TEST_DATA = `${__dirname}/../testData`;
 const CONVERT_FOLDER = `${__dirname}/../convertDataTest`;
 
 describe("convert-food-panty-data/cli", () => {

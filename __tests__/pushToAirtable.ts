@@ -1,12 +1,13 @@
 require('dotenv').config();
-const ncp = require("ncp").ncp;
+// const ncp = require("ncp").ncp;
+const fs = require("fs");
 const rimraf = require("rimraf");
 const Airtable = require('airtable');
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
 const table = base('TEST_SITE_TABLE');
 // TODO:
-// [*] expand preexisting test to pushToAirtable('../data/Arizona_Data_Flat.xlsx') to TEST_SITE_TABLE
+// [*] expand preexisting test to pushToAirtable('../testData/Arizona_Data_Flat.xlsx') to TEST_SITE_TABLE
 // [*] ensure the data made it to TEST_SITE_TABLE by:
 // [*]   1) counting entries
 // [*]   2) comparing values of 1st row
@@ -24,8 +25,10 @@ const table = base('TEST_SITE_TABLE');
 
 import testCLI, { ITestCLIReturn } from "@node-cli-toolkit/test-cli";
 
-const TEST_DATA = `${__dirname}/../data`;
+const TEST_DATA_AZ = `${__dirname}/../testData/Arizona_Data_Flat.xlsx`;
+const TEST_DATA_CO = `${__dirname}/../testData/Colorado_Data_3_Sheet.xlsx`;
 const CONVERT_FOLDER = `${__dirname}/../convertDataTest`;
+
 async function clearAirtable() {
   table.select().all().then(records => {
     const ids = [];
@@ -47,20 +50,17 @@ async function clearAirtable() {
 
 describe("convert-food-panty-data/airtable", () => {
   jest.setTimeout(20000);
-  beforeEach((done) => {
-    clearAirtable().then(() => {
-      ncp(TEST_DATA, CONVERT_FOLDER, done);
-    }).catch(err => {
-      console.error(err);
-    });
+  beforeEach(async (done) => {
+    await clearAirtable();
+    fs.mkdirSync(CONVERT_FOLDER);
+    fs.copyFileSync(TEST_DATA_AZ, `${CONVERT_FOLDER}/AZ`);
+    fs.copyFileSync(TEST_DATA_CO, `${CONVERT_FOLDER}/CO`);
+    done();
   });
 
-  afterEach((done) => {
-    clearAirtable().then(() => {
-      rimraf(CONVERT_FOLDER, done);
-    }).catch(err => {
-      console.error(err);
-    });
+  afterEach(async (done) => {
+    // await clearAirtable();
+    rimraf(CONVERT_FOLDER, done);
   });
 
   it("converts a directory of xlsx files & pushes half to Airtable", async (done) => {
@@ -68,41 +68,33 @@ describe("convert-food-panty-data/airtable", () => {
       bashCommand: `yarn start --dir ${CONVERT_FOLDER}`,
     });
 
+    console.log(error.mock.calls);
     expect(error.mock.calls.length).toBe(0);
 
     expect(code).toBe(0);
 
-    let recordCount = 0;
-
-    const records = table.select({
-      maxRecords: 100,
-      view: "All"
-    }).eachPage(function page(records, fetchNextPage) {
-      recordCount += records.length;
-      fetchNextPage();
-    }, function (err) {
+    table.select().all((err, records) => {
       expect(err).toBeFalsy();
-      // expect(recordCount).toEqual(38);
-    });
 
-    expect(records[0]).toEqual({
-      siteName: "Victory Worship Center —\nBethlehem House Pantry* ",
-      siteStreetAddress: "2561 W Ruthrauff Rd",
-      siteCity: "Tucson",
-      siteState: "AZ",
-      siteZip: "85705",
-      contactPhone: "520-293-6386",
-      contactEmail: "",
-      siteType: [],
-      siteCountry: "USA",
-      siteSubType: [],
-      "Site Needs/Updates Forms": [],
-      Claims: [],
-      url: "www.vwcaz.org",
-      "Notes (possibly Pre-COVID)":
-        "Food service -— Sat 6-7:30 AM\n\nLocated in the Fellowship Hall (building)\nof the Ruthrauff Campus.\nLanguages: English, Spanish",
-    });
+      expect(records.length).toEqual(122);
 
-    expect(records[2].contactEmail).toEqual("srmoffice@srm-hc.org");
+      const testRecord = records.find(record => record.fields.contactPhone === "520-293-6386");
+      expect(testRecord.fields).toEqual(
+        expect.objectContaining({
+          siteName: "Victory Worship Center — Bethlehem House Pantry* ",
+          siteStreetAddress: "2561 W Ruthrauff Rd",
+          siteCity: "Tucson",
+          siteState: "AZ",
+          siteZip: "85705",
+          contactPhone: "520-293-6386",
+          siteCountry: "USA",
+          url: "www.vwcaz.org",
+          "Notes (possibly Pre-COVID)":
+            "Food service -— Sat 6-7:30 AM\n\nLocated in the Fellowship Hall (building)\nof the Ruthrauff Campus.\nLanguages: English, Spanish",
+        })
+      );
+
+      done();
+    });
   });
 });
