@@ -1,0 +1,57 @@
+files:
+    - Colorado_Data_3_Sheet.xlsx
+sheetColumnsToMatch:
+    - Organization.Organization Name*
+    - Program.Name of Program*
+    - Contact.Organization Name*
+fields:
+    siteName: Program.Name of Program*
+    siteStreetAddress: Program.Street Address*
+    siteCity: Organization.City*
+    siteState: Organization.State # required
+    siteZip: Organization.Zip*
+    siteCountry: USA
+    siteCounty:
+    siteNeighborhood:
+    siteType: Organization.Program Type*
+    siteSubType:
+    lat:
+    lng:
+    EFROID:
+    contactName:
+    contactPhone:
+    contactEmail: Organization.Organization Email
+    publicContactMethod:
+    publicPhone: Organization.General Phone*
+    publicEmail:
+    website: Organization.Website
+    socialMedia:
+    status:
+    publicOpenness:
+    deliveryEligibility:
+    eligibilityRequirements:
+    hoursEligibility1:
+    hours1:
+    hoursEligibility2:
+    hours2:
+    hoursEligibility3:
+    hours3:
+    validUntil:
+    acceptsFoodDonations:
+    hasEnoughFood:
+    canReceiveBulk:
+    foodNeeds:
+    hasBabyFormula:
+    staffVolunteerNeeds:
+    recruitingAssistance:
+    otherNeeds:
+    covidChanges:
+    increasedDemandCauses:
+    totalFoodCommunityNeeds:
+    currentCapacity:
+    staffVolunteerReduction:
+    safetyPrecautions:
+    languages:
+    nearbyFoodPrograms:
+    notesGovRequests:
+    notesAnythingElse: Organization.Notes

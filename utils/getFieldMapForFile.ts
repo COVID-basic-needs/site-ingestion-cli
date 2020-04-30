@@ -1,9 +1,12 @@
 import xlsx from "node-xlsx";
-import fieldMaps from "./";
+import fieldMaps from ".";
 const parse = require('csv-parse/lib/sync');
 
 export default (fileName) => {
-  let sheets;
+
+  
+
+  let sheets: any;
 
   switch (true) {
     case fileName.endsWith('.csv'):

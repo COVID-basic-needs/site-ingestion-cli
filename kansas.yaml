@@ -1,0 +1,63 @@
+files:
+    - Kansas_Data.xlsx
+fields:
+    siteName: "Full Resource Name:"
+    siteStreetAddress: Street Address
+    siteCity: City
+    siteState: State
+    siteZip: ZIP
+    siteCountry: USA  # or Canada
+    siteCounty:
+    siteNeighborhood:
+    siteType: Type # hard-code if no column & all are one type
+    siteSubType:
+    lat:
+    lng:
+    EFROID:
+    publicContactMethod:
+    publicPhone: Phone Number
+    publicEmail:
+    website: Website
+    socialMedia:
+    contactName:
+    contactPhone:
+    contactEmail:
+    status:
+    publicOpenness:
+    deliveryEligibility:
+    eligibilityRequirements:
+    hoursEligibility1:
+    hours1: Hours TO BE PARSED
+    hoursEligibility2:
+    hours2:
+    hoursEligibility3:
+    hours3:
+    validUntil:
+    acceptsFoodDonations:
+    hasEnoughFood:
+    canReceiveBulk:
+    foodNeeds:
+    hasBabyFormula:
+    staffVolunteerNeeds:
+    recruitingAssistance:
+    otherNeeds:
+    covidChanges:
+    increasedDemandCauses:
+    totalFoodCommunityNeeds:
+    currentCapacity:
+    staffVolunteerReduction:
+    safetyPrecautions:
+    languages:
+    nearbyFoodPrograms:
+    notesGovRequests:
+    notesAnythingElse: "Description:" # use this to upload any messy data or jumbled fields
+
+# UNCOMMENT 'sheetColumnsToMatch' FOR .xlsx FILES WITH MULTIPLE SHEETS
+#  - Put the columns to use to match up rows as a 'key: value' pair here
+#  - Sheet names can be connected via dot notation to column names
+#  - In this example asterisks were part of the column names
+
+# sheetColumnsToMatch:
+#     - Organization.Organization Name*
+#     - Program.Name of Program*
+#     - Contact.Organization Name*

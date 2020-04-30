@@ -1,4 +1,4 @@
-import getFieldMapForFile from "../getFieldMapForFile";
+import getFieldMapForFile from "../../utils/getFieldMapForFile";
 
 describe("convert-food-panty-data/fieldMaps/getFieldMapForFile", () => {
   it("identifies a flat file", async () => {

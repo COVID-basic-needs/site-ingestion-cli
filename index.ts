@@ -1,6 +1,6 @@
-import getFieldMapForFile from "./fieldMaps/getFieldMapForFile";
+import getFieldMapForFile from "./utils/getFieldMapForFile";
 
-// @todo write better definition
+// TODO write better definition
 type FieldMap = {
   [key: string]: any;
 };
