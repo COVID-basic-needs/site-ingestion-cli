@@ -3,7 +3,7 @@ files:
 fields:
     siteName: "Full Resource Name:"
     siteStreetAddress: Street Address
-    siteCity: City
+    siteCity:
     siteState: State
     siteZip: ZIP
     siteCountry: USA  # or Canada

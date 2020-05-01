@@ -7,6 +7,10 @@ const parseCSV = require('csv-parse/lib/sync');
 const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a directory of them';
 const wrongFileType = 'Files listed in fieldMap.yaml must be .xlsx or .csv (for now)';
 
+type Fields = {
+    [key: string]: any;
+};
+
 (async () => {
     try {
         let allData;
@@ -43,65 +47,66 @@ const wrongFileType = 'Files listed in fieldMap.yaml must be .xlsx or .csv (for 
             allData = fieldMap.files.map(async file => {
 
                 if (file.endsWith('.csv')) {
-                    data = parseCSV(file, {
+                    data = await parseCSV(file, {
                         columns: false,
                         skip_empty_lines: true
                     });
                 } else {
-                    let sheets = xlsx.parse(file);
+                    let sheets = await xlsx.parse(file);
                     if (sheets.length > 1) throw new Error(`${file} has multiple sheets, can't parse yet.
     TODO parse fieldMaps which describe .xlsx files w/ multiple sheets`);
                     data = sheets[0].data;
                 }
 
-                let columnHeaders = data.shift();
-                console.log('map =', map);
-                console.log('columnHeaders =', columnHeaders);
+                let columns = data.shift();
 
                 /* TODO break to separate file */
-                // separate mapped values which don't correspond to column headers
-                //   (for later hard-coding the values as fields)
-                // simultaneously, map the matched fields to their column index
-                //   (for skipping over columns to be excluded from the file)
-                const matchedFields = {}; // k: airtable field, v: index of corresponding spreadsheet column
-                const unmatchedFields = []; // airtable fields to hard-code
-                const numColumns = columnHeaders.length;
-                Object.keys(map).forEach(mapKey => {
-                    let i = 0;
-                    while (i < numColumns) {
-                        const header = columnHeaders[i];
-                        if (header === map[mapKey]) {
-                            matchedFields[mapKey] = i;
-                            break;
-                        }
-                        i++;
-                    }
-                    if (i === numColumns) unmatchedFields.push(map[mapKey]);
-                });
 
-                // turn the array of arrays into an array of objects
-                data = data.map(row => {
-                    // keep only cells from mapped columns & give new field names
-                    let object = Object.keys(matchedFields).reduce((out, field) => {
-                        // keys: airtable fields, values: spreadsheet index
-                        out[field] = row[matchedFields[field]];
+                // map matched fields to their column index while separating unmatched fields
+                // fields.matched[airtable field] = index of corresponding spreadsheet column
+                // fields.indexes = list of indexes of necessary spreadsheet columns
+                // fields.unmatched[airtable field] = value to hard code
+                // CHEATCODE = a fieldmap value which forces a required field to be blank
+                const fields = await Object.keys(map).reduce((out: Fields, field) => {
+                    const value = map[field];
+                    if (value === 'CHEATCODE') return out;
+                    const i = columns.findIndex(header => header === value);
+                    if (i > -1) {
+                        out.matched[field] = i;
+                        out.indexes.push(i);
+                    } else if (['siteName', 'siteStreetAddress', 'siteZip'].includes(field)) {
+                        throw new Error(`can't hard-code ${field}`);
+                    } else {
+                        out.unmatched[field] = value;
+                    }
+                    out.total += 1;
+                    return out;
+                }, { matched: {}, indexes: [], unmatched: {}, total: 0 });
+
+                // filter out rows where too many listed fields are empty
+                // and turn the array of arrays into an array of objects
+                data = await data.filter(row => {
+                    return row.filter(row => {
+                        return fields.indexes.map((i: any) => row[i]);
+                    }).filter(Boolean).length > 2;
+                }).map(row => {
+                    // keep only cells from matching mapped columns & give airtable field names
+                    let rowObject = Object.keys(fields.matched).reduce((out, field) => {
+                        // key: airtable field, value: spreadsheet cell value at row index
+                        const cell = row[fields.matched[field]];
+                        if (cell) out[field] = cell;
                         return out;
                     }, {});
-                    // TODO test this
-
-                    // let object = columnHeaders.reduce((out, header, i) => {
-                    //     if (Object.keys(matchedFields).includes(header)) {
-                    //         out[Object.keys(map).find(key => map[key] === header)] = row[i];
-                    //     }
-                    //     return out;
-                    // }, {});
-
-                    // TODO add hard-coded fields (i.e. siteCountry: 'USA')
-
-                    return object;
+                    // add hard-coded fields (i.e. siteCountry: 'USA')
+                    Object.keys(fields.unmatched).forEach(field => {
+                        rowObject[field] = fields.unmatched[field];
+                    });
+                    return rowObject;
                 });
-
-                console.log(`Converted ${data.length} rows from ${file}`);
+                console.log('fields.unmatched = ', fields.unmatched);
+                const temp = data.length - 1;
+                console.log(`data[${temp}] = `, data[temp]);
+                console.log(`Converted ${data.length} rows into objects with ${fields.total} fields (max) from ${file}`);
 
                 throw new Error('testing, ending here on purpose');
 
