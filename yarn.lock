@@ -555,6 +555,11 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
+"@types/node-xlsx@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@types/node-xlsx/-/node-xlsx-0.15.0.tgz#2ffa40b2d21693507fcc070bebd6c4ac45a3a94c"
+  integrity sha512-Ow5UK03bSmuRcbKrnbLYxc7ktBQguYAD9MWekDUPW77eXoBgeEuijuEyZFCMrx0O/A6xXusshRnD9XMF+TehMg==
+
 "@types/node@*", "@types/node@^13.11.1":
   version "13.13.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"

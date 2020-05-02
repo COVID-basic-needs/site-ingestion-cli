@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/node-xlsx": "^0.15.0",
     "airtable": "^0.8.1",
     "csv-parse": "^4.8.9",
     "dotenv": "^8.2.0",
