@@ -1,27 +1,43 @@
-const { promises: fs } = require("fs");
-const { dir } = require("yargs").argv;
+import convert from './convert';
+import pushToAirtable from './pushToAirtable';
+const { promises: fs } = require('fs');
 
-import convert from ".";
-import pushToAirtable from "./pushToAirtable";
+const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a directory of them';
 
 (async () => {
-  if (!dir) {
-    new Error("--dir required");
-  }
 
-  const files = await fs.readdir(dir);
-  let allData = [];
+    let data;
+    const path = process.argv[2];
+    const pathType = await fs.stat(path);
 
-  for (const i in files) {
-    const file = files[i];
-    const json = await convert(`${dir}/${file}`);
-    allData = [...allData, ...json];
-    console.log(`Converted ${file} successfully (${json.length} rows)`);
-  }
+    if (pathType.isFile() && (path.endsWith('.yaml') || path.endsWith('.yml'))) {
 
-  console.log("Done converting, beginning push to Airtable...");
+        console.log(`Parsing file '${path}'...`);
 
-  const numPushed = await pushToAirtable(allData);
+        data = await convert(path);
 
-  console.log(`Pushed ${numPushed} rows to Airtable table ${process.env.AIRTABLE_SITE_TABLE}`);
+    } else if (pathType.isDirectory()) {
+
+        console.log(`Parsing directory '${path}'...`);
+
+        const dirContents = await fs.readdir(path);
+        const yamlFieldMaps = dirContents
+            .filter((file: string) => (file.endsWith('.yml') || file.endsWith('.yaml')));
+
+        if (!yamlFieldMaps.length) throw new Error(missingFieldMap);
+
+        data = await yamlFieldMaps.reduce(async (out, yamlFile) => {
+            return [...out, ...await convert(`${path}/${yamlFile}`)];
+        }, []);
+
+    } else {
+        throw new Error(missingFieldMap);
+    }
+
+    console.log('Done converting, beginning push to Airtable...');
+
+    const numPushed = await pushToAirtable(data);
+
+    console.log(`Pushed ${numPushed} rows to Airtable table ${process.env.AIRTABLE_SITE_TABLE}`);
+
 })();

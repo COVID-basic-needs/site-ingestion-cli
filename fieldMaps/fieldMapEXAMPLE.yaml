@@ -1,0 +1,84 @@
+# 'files' is a list of the files this map will refer to (minimum 1). For best
+# results, put fieldMaps & their file(s) in the same directory -otherwise list
+# relative paths
+
+files:
+    - filename.xlsx
+    - ../otherDir/file2.csv
+
+# 'fields' are all Sites fields currently in the database (on Airtable).
+#  - Put the column name corresponding to the field in the space after the
+#    colon.
+#  - Each schema map can be used for multiple files, provided the columns from
+#    which you want to preserve data are named exactly the same.
+#  - If uploading multiple files with unique column names, multiply this file as
+#    many times as necessary (the extension must be .yml).
+#  - Any fields not marked 'required' may be left blank.
+#  - Use 'notesAnythingElse' for generic Notes per row that don't fit in other
+#    fields.
+#  - Merge multiple columns into 1 field by listing with -'s (like 'files'
+#    above).
+
+fields:
+    siteName: column name here # required
+    siteStreetAddress: second sample column name # required
+    siteCity: # required
+    siteState: # required, put a 2-letter state code (CA, NY...) to hard-code if
+               # there's no State column & all are in same state.
+    siteZip: # if sites are from various States but there's no value for that
+             # field, siteZip is a required substitute
+    siteCountry: USA # required, Canada is also valid
+    siteCounty:
+    siteNeighborhood:
+    siteType: # hard-code if no column & all are one type
+    siteSubType:
+    lat:
+    lng:
+    EFROID:
+    publicContactMethod:
+    publicPhone:
+    publicEmail:
+    website:
+    socialMedia:
+    contactName:
+    contactPhone:
+    contactEmail:
+    status:
+    publicOpenness:
+    deliveryEligibility:
+    eligibilityRequirements:
+    hoursEligibility1:
+    hours1:
+    hoursEligibility2:
+    hours2:
+    hoursEligibility3:
+    hours3:
+    validUntil:
+    acceptsFoodDonations:
+    hasEnoughFood:
+    canReceiveBulk:
+    foodNeeds:
+    hasBabyFormula:
+    staffVolunteerNeeds:
+    recruitingAssistance:
+    otherNeeds:
+    covidChanges:
+    increasedDemandCauses:
+    totalFoodCommunityNeeds:
+    currentCapacity:
+    staffVolunteerReduction:
+    safetyPrecautions:
+    languages:
+    nearbyFoodPrograms:
+    notesGovRequests:
+    notesAnythingElse: # use this to upload any messy data or jumbled fields
+
+# UNCOMMENT 'sheetColumnsToMatch' FOR .xlsx FILES WITH MULTIPLE SHEETS
+#  - List each sheet and the columns to use to match up rows here
+#  - Sheet names can be connected via dot notation to column names
+#  - In this example asterisks were part of the column names
+
+# sheetColumnsToMatch:
+#     - Organization.Organization Name*
+#     - Program.Name of Program*
+#     - Contact.Organization Name*
