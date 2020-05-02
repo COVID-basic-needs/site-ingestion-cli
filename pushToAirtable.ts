@@ -1,5 +1,5 @@
 const util = require('util');
-import { sitesTable, detailsTable, fromEmail } from "./airtableConfig";
+import { detailsTable, fromEmail, sitesTable } from "./airtableConfig";
 
 const createDetails = util.promisify(detailsTable.create);
 
