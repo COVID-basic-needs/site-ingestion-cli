@@ -9,6 +9,7 @@ export default async (yamlFilePath) => {
 
     const fieldMap = parse(await fs.readFile(yamlFilePath, 'utf8'));
 
+    // ensure the right format & required values
     check(fieldMap);
 
     // map = fieldMap.fields with nulls cleared
@@ -19,8 +20,10 @@ export default async (yamlFilePath) => {
 
     return fieldMap.files.reduce((out, file) => {
 
+        // open, check, and parse .csv or .xlsx
         let data = parseFile(file);
 
+        // split header row, which corresponds to spreadsheet column names
         const columns = data.shift();
 
         // map matched fields to their column index while separating unmatched fields
@@ -34,7 +37,7 @@ export default async (yamlFilePath) => {
         // and turn the array of arrays into an array of objects
         data = rowsToObjects(data, fields);
 
-        console.log(`Converted ${data.length} rows into objects with ${fields.total} fields (max) from ${file}`);
+        console.log(`Created ${data.length} objects (of up to ${fields.total} fields each) from ${file}`);
 
         return [...out, ...data];
 

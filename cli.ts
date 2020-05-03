@@ -36,8 +36,6 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
 
     console.log('Done converting, beginning push to Airtable...');
 
-    const numPushed = await pushToAirtable(data);
-
-    console.log(`Pushed ${numPushed} rows to Airtable table ${process.env.AIRTABLE_SITE_TABLE}`);
+    await pushToAirtable(data);
 
 })();

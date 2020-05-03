@@ -12,7 +12,7 @@ export default (data, fields) => {
         let rowObject = Object.keys(fields.matched).reduce((out, field) => {
             // key: airtable field, value: spreadsheet cell value at row index
             const cell = row[fields.matched[field]];
-            if (cell) out[field] = cell;
+            if (cell && typeof cell !== 'undefined') out[field] = cell;
             return out;
         }, {});
         // add hard-coded fields (i.e. siteCountry: 'USA')

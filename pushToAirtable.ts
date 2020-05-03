@@ -1,13 +1,10 @@
-const util = require('util');
 import { detailsTable, fromEmail, sitesTable } from "./airtableConfig";
 
-const createDetails = util.promisify(detailsTable.create);
-
-export default async (siteList: any[]) => {
+export default (siteList: any[]) => {
     const total = siteList.length;
-    let promises = [];
+
     // Airtable's create API only allows 10 at a time, so we batch.
-    // (there is a rate limit, but this Javascript SDK has builtin retry logic so we should be safe)
+    // (there is a rate limit, but their SDK has builtin retry logic so we should be safe)
     for (let i = 0; i < total; i += 10) {
         // The API expects a 'fields:' key listing each entry's attributes.
         const tenSites = siteList.slice(i, i + 10 < total ? i + 10 : total);
@@ -21,7 +18,7 @@ export default async (siteList: any[]) => {
                     siteStreetAddress: site.siteStreetAddress,
                     siteCity: site.siteCity,
                     siteState: site.siteState,
-                    siteZip: site.siteZip,
+                    siteZip: site.siteZip ? site.siteZip + "" : null,
                     siteCountry: site.siteCountry,
                     siteCounty: site.siteCounty,
                     siteNeighborhood: site.siteNeighborhood,
@@ -29,12 +26,12 @@ export default async (siteList: any[]) => {
                     siteSubType: site.siteSubType,
                     lat: site.lat,
                     lng: site.lng,
-                    createdMethod: "https://github.com/COVID-basic-needs/convert-food-pantry-data"
+                    createdMethod: "Upload V2: github.com/COVID-basic-needs/food-site-updates"
                 }
             };
         });
 
-        promises.push(sitesTable.create(tenSiteLocations, { typecast: true }, (err, records) => {
+        sitesTable.create(tenSiteLocations, { typecast: true }, async (err, records) => {
             if (err) {
                 console.error(err);
                 return;
@@ -87,10 +84,10 @@ export default async (siteList: any[]) => {
                     }
                 });
             };
-
-            createDetails(tenSiteDetails, { typecast: true });
-        }));
+            await detailsTable.create(tenSiteDetails, { typecast: true }).catch(err => console.error(err));
+        });
     };
-    await Promise.all(promises);
-    return total;
+
+    console.log(`Pushed ${total} rows to Airtable ${sitesTable} table and ${detailsTable} table`);
+
 };
