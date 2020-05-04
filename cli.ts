@@ -6,7 +6,7 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
 
 (async () => {
 
-    let data;
+    let data = [];
     const path = process.argv[2];
     const pathType = await fs.stat(path);
 
@@ -26,9 +26,11 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
 
         if (!yamlFieldMaps.length) throw new Error(missingFieldMap);
 
-        data = await yamlFieldMaps.reduce(async (out, yamlFile) => {
-            return [...out, ...await convert(`${path}/${yamlFile}`)];
-        }, []);
+        for await (const yamlFile of yamlFieldMaps) {
+            for await (const object of await convert(`${path}/${yamlFile}`)) {
+                data.push(object);
+            }
+        }
 
     } else {
         throw new Error(missingFieldMap);

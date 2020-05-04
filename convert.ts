@@ -18,7 +18,7 @@ export default async (yamlFilePath) => {
         if (value) map[key] = value;
     }
 
-    return fieldMap.files.reduce((out, file) => {
+    return await fieldMap.files.reduce((out, file) => {
 
         // open, check, and parse .csv or .xlsx
         let data = parseFile(file);
