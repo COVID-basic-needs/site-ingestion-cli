@@ -1,23 +1,23 @@
 files:
-    - Arizona_Data_Flat.xlsx
+    - GF-UNY-4-13-19.xlsx
 fields:
     siteName: Organization Name
-    siteStreetAddress: Street Address
+    siteStreetAddress: Address 1
     siteCity: City
     siteState: State
     siteZip: Zip
     siteCountry: USA  # or Canada
     siteCounty:
     siteNeighborhood:
-    siteType:  # hard-code if no column & all are one type
+    siteType: Category # hard-code if no column & all are one type
     siteSubType:
     lat:
     lng:
     EFROID:
     publicContactMethod:
-    publicPhone: General Phone
-    publicEmail: Organization Email
-    website: Website
+    publicPhone: Phone Number
+    publicEmail:
+    website:
     socialMedia:
     contactName:
     contactPhone:
@@ -27,7 +27,7 @@ fields:
     deliveryEligibility:
     eligibilityRequirements:
     hoursEligibility1:
-    hours1: General Services Details
+    hours1: Hours
     hoursEligibility2:
     hours2:
     hoursEligibility3:
