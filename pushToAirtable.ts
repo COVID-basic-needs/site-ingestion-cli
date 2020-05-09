@@ -1,5 +1,7 @@
 import { detailsTable, fromEmail, sitesTable } from "./airtableConfig";
 
+const updateMethod = "Upload V2: github.com/COVID-basic-needs/food-site-updates";
+
 export default (siteList: any[]) => {
     const total = siteList.length;
 
@@ -26,7 +28,7 @@ export default (siteList: any[]) => {
                     siteSubType: site.siteSubType,
                     lat: site.lat,
                     lng: site.lng,
-                    createdMethod: "Upload V2: github.com/COVID-basic-needs/food-site-updates"
+                    createdMethod: updateMethod
                 }
             };
         });
@@ -45,7 +47,7 @@ export default (siteList: any[]) => {
                         uploadedBy: { email: fromEmail },
                         status: site.status,
                         contactName: site.contactName,
-                        contactPhone: site.contactPhone,
+                        contactPhone: site.contactPhone ? site.contactPhone + "" : null,
                         contactEmail: site.contactEmail,
                         publicOpenness: site.publicOpenness,
                         deliveryEligibility: site.deliveryEligibility,
@@ -66,7 +68,7 @@ export default (siteList: any[]) => {
                         recruitingAssistance: site.recruitingAssistance,
                         otherNeeds: site.otherNeeds,
                         publicContactMethod: site.publicContactMethod,
-                        publicPhone: site.publicPhone,
+                        publicPhone: site.publicPhone ? site.publicPhone + "" : null,
                         publicEmail: site.publicEmail,
                         website: site.website,
                         socialMedia: site.socialMedia,
@@ -79,8 +81,8 @@ export default (siteList: any[]) => {
                         languages: site.languages,
                         nearbyFoodPrograms: site.nearbyFoodPrograms,
                         notesGovRequests: site.notesGovRequests,
-                        notesAnythingElse: site.notesAnythingElse,
-                        createdMethod: "https://github.com/COVID-basic-needs/convert-food-pantry-data"
+                        notesAnythingElse: site.notesAnythingElse ? site.notesAnythingElse + "" : null,
+                        createdMethod: updateMethod
                     }
                 });
             };
@@ -88,6 +90,6 @@ export default (siteList: any[]) => {
         });
     };
 
-    console.log(`Pushed ${total} rows to Airtable ${sitesTable} table and ${detailsTable} table`);
+    console.log(`Pushed ${total} rows to Airtable ${sitesTable.name} table and ${detailsTable.name} table`);
 
 };
