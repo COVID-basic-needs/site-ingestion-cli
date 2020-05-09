@@ -1,3 +1,6 @@
+/**
+ * Takes as fieldMap `map` and matches it with the header columns of the data file
+ */
 
 type Fields = {
     [key: string]: any;

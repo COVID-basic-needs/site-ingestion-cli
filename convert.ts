@@ -1,3 +1,7 @@
+/**
+ * Reads/parses/validates fieldMap and reads associated data files
+ */
+
 import { parse } from 'yaml';
 import check from './utils/checks';
 import parseFieldMap from './utils/parseFieldMap';
