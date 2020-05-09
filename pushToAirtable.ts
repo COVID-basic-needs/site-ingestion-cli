@@ -1,3 +1,7 @@
+/**
+ * Pushes data to Airtable SITES table, then push associated details to SITE_DETAILS
+ */
+
 import { detailsTable, fromEmail, sitesTable } from "./airtableConfig";
 
 const updateMethod = "Upload V2: github.com/COVID-basic-needs/food-site-updates";

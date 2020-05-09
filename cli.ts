@@ -1,3 +1,7 @@
+/**
+ * Program entry point. Takes a .yaml file or directory of .yaml files as a command line argument.
+ */
+
 import convert from './convert';
 import pushToAirtable from './pushToAirtable';
 const { promises: fs } = require('fs');
