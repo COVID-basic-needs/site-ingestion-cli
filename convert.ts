@@ -23,7 +23,6 @@ export default async (yamlFilePath) => {
     }
 
     return await fieldMap.files.reduce((out, file) => {
-
         // open, check, and parse .csv or .xlsx
         let data = parseFile(file);
 
