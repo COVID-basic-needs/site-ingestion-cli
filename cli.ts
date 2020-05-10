@@ -43,5 +43,4 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
     console.log('Done converting, beginning push to Airtable...');
 
     await pushToAirtable(data);
-
 })();
