@@ -1,5 +1,5 @@
 files:
-    - testData/Arizona_Data_Flat.xlsx
+    - Arizona_Data_Flat.xlsx
 fields:
     siteName: Organization Name
     siteStreetAddress: Street Address

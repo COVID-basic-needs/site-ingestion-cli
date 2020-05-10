@@ -51,7 +51,7 @@ export default async function(siteList: any[]){
         });
     };
 
-    // push duped details
+    // push details corresponded to duped sites
     for (let j = 0; j < dupedSiteDetails.length; j++){
         const tenDupedSiteDetails = dupedSiteDetails.slice(j, j + 10 < total ? j + 10 : total);
         detailsTable.create(tenDupedSiteDetails, { typecast: true }).catch(err => console.error(err));
@@ -69,7 +69,7 @@ function fetchSiteTable(): Promise<Map<string, string>> {
         // this is inefficient, but the rate limiting makes checking for individual/batch conflicts unfeasible
         sitesTable.select({
             fields: ["siteID"],
-            maxRecords: 100,
+            pageSize: 100,
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
             records.forEach(function (record) {
@@ -82,7 +82,8 @@ function fetchSiteTable(): Promise<Map<string, string>> {
                 console.error(err);
                 reject(err);
             }
-
+            
+            console.log(`Fetched ${sites.size} rows from the sites table`);
             resolve(sites);
         });
     });

@@ -24,7 +24,7 @@ export default async (yamlFilePath) => {
 
     return await fieldMap.files.reduce((out, file) => {
         // open, check, and parse .csv or .xlsx
-        let data = parseFile(file);
+        let data = parseFile("testData/"+file);
 
         // split header row, which corresponds to spreadsheet column names
         const columns = data.shift();
