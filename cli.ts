@@ -1,3 +1,7 @@
+/**
+ * Program entry point. Takes a .yaml file or directory of .yaml files as a command line argument.
+ */
+
 import convert from './convert';
 import pushToAirtable from './pushToAirtable';
 const { promises: fs } = require('fs');
@@ -39,5 +43,4 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
     console.log('Done converting, beginning push to Airtable...');
 
     await pushToAirtable(data);
-
 })();

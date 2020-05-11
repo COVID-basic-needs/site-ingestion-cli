@@ -1,3 +1,7 @@
+/**
+ * Parses data input file
+ */
+
 import xlsx from 'node-xlsx';
 import parseCSV = require('csv-parse/lib/sync');
 

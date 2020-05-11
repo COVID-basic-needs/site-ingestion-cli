@@ -1,3 +1,6 @@
+/**
+ * Validates fieldMap file and throws if invalid.
+ */
 
 export default (fieldMap) => {
 
