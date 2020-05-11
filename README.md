@@ -7,6 +7,6 @@ Join the conversation in our [Slack workspace](https://join.slack.com/t/covid-ba
 
 ## Steps to get started:
 1. Clone the repo.
-2. Run `npm install`.
-3. Rename `example.env` to `.env` and populate the fields with your email and Airtable API key.
-4. Run the CLI tool with `npm start PATH_TO_FILEMAP`
+2. Run `yarn install` to install dependencies.
+3. Clone `example.env` as `.env` and populate the fields with your email and Airtable API key.
+4. Run the CLI tool with `yarn start PATH_TO_FILEMAP`
