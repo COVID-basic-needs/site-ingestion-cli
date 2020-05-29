@@ -3,7 +3,6 @@
  */
 
 export default (fieldMap) => {
-
     if (!fieldMap.files.length) {
         throw new Error("'files:' must list at least 1 file");
     }
@@ -24,5 +23,4 @@ export default (fieldMap) => {
             throw new Error("'files:' listed must be .xlsx or .csv (for now)");
         }
     });
-
 };
