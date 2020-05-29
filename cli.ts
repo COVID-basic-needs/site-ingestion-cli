@@ -49,6 +49,9 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
         body: { "data": data },
         json: true,
     }, function (error, response, body) {
+        if (error) {
+            console.error('Upload failed:', error);
+        }
         console.log(body);
     });
 })();
