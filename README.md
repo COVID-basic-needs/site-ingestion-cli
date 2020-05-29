@@ -10,6 +10,5 @@ To-do's are in https://trello.com/b/HqzmzBSE/covid-19-food-resources-collab
 ## Steps to get started:
 1. Clone the repo.
 1. Run `yarn install` to install dependencies.
-1. Clone `example.env` as `.env` and populate the fields with your email and Airtable API key.
 1. Check for a `.yaml` fieldMap for the file to upload in `fieldMaps/`, add the file to an existing one, or create a new one from the EXAMPLE.yaml
 1. Run the CLI tool with `yarn start PATH_TO_YAML_FILEMAP`
