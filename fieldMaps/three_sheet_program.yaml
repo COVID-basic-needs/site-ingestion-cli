@@ -1,5 +1,5 @@
 files:
-    - Colorado_Data_3_Sheet.xlsx
+    - testData/Colorado_Data_3_Sheet.xlsx
 sheetColumnsToMatch:
     - Organization.Organization Name*
     - Program.Name of Program*

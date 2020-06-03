@@ -3,7 +3,7 @@
  */
 
 import convert from './convert';
-import pushToAirtable from './pushToAirtable';
+const got = require('got');
 const { promises: fs } = require('fs');
 
 const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a directory of them';
@@ -40,7 +40,13 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
         throw new Error(missingFieldMap);
     }
 
-    console.log('Done converting, beginning push to Airtable...');
+    console.log('Done converting, beginning push to site ingestion API...');
 
-    await pushToAirtable(data);
+    // push to site-ingestion-api
+    const { body } = await got.post('https://i3tmnkgp2i.execute-api.us-west-2.amazonaws.com/upload-site', {
+        json: { "data": data },
+        responseType: 'json',
+    });
+    
+    console.log(body);
 })();
