@@ -40,7 +40,6 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
         throw new Error(missingFieldMap);
     }
 
-    console.log(data);
     console.log('Done converting, beginning push to site ingestion API...');
 
     // push to site-ingestion-api
