@@ -1,4 +1,6 @@
 
+const requiredFields = ['siteName', 'siteStreetAddress', 'siteZip'];
+
 export default (data, fields) => {
 
     // filter out rows where too many listed fields are empty
@@ -11,15 +13,31 @@ export default (data, fields) => {
         // keep only cells from matching mapped columns & give airtable field names
         let rowObject = Object.keys(fields.matched).reduce((out, field) => {
             // key: airtable field, value: spreadsheet cell value at row index
-            const cell = row[fields.matched[field]];
-            if (cell && typeof cell !== 'undefined') out[field] = cell;
+            let cell = row[fields.matched[field]];
+
+            // wrangle cell into a string and trim whitespace
+            if (cell && typeof cell !== 'undefined') {
+                cell = cell.toString().replace(/^\s*/, "").replace(/\s*$/, "");
+            }
+            
+            if (cell && cell.length > 0) {
+                out[field] = cell;
+            } 
             return out;
         }, {});
+
         // add hard-coded fields (i.e. siteCountry: 'USA')
         Object.keys(fields.unmatched).forEach(field => {
             rowObject[field] = fields.unmatched[field];
         });
+
         return rowObject;
+    }).filter(rowObj => {
+        // filter out rows that are missing required fields
+        const hasRequiredFields = requiredFields.every(requiredField => rowObj.hasOwnProperty(requiredField));
+
+        if (!hasRequiredFields) console.error("Row: " + JSON.stringify(rowObj), " missing required fields");
+        return hasRequiredFields;
     });
 
 };
