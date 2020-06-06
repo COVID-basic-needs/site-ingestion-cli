@@ -22,9 +22,10 @@ export default async (yamlFilePath) => {
         if (value) map[key] = value;
     }
 
-    return await fieldMap.files.reduce((out, file) => {
+
+    return await fieldMap.files.reduce((out: any, fileName: string) => {
         // open, check, and parse .csv or .xlsx
-        let data = parseFile(file);
+        let data = parseFile(fileName);
 
         // split header row, which corresponds to spreadsheet column names
         const columns = data.shift();
@@ -40,10 +41,8 @@ export default async (yamlFilePath) => {
         // and turn the array of arrays into an array of objects
         data = rowsToObjects(data, fields);
 
-        console.log(`Created ${data.length} objects (of up to ${fields.total} fields each) from ${file}`);
-
+        console.log(`Created ${data.length} objects (of up to ${fields.total} fields each) from ${fileName}`);
         return [...out, ...data];
-
     }, []);
 
 };
