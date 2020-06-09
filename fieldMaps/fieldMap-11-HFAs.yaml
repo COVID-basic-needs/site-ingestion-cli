@@ -1,0 +1,73 @@
+files:
+    - processed/NY_DC.xlsx
+    - processed/CO.xlsx
+    - processed/GA.xlsx
+    - processed/NM.xlsx
+    - processed/RI.xlsx
+    - processed/NJ.xlsx
+    - processed/TN.xlsx
+    - processed/UT.xlsx
+    - processed/VT.xlsx
+    - processed/WI.xlsx
+    - processed/WY.xlsx
+fields:
+    siteName: Name of Program*
+    siteStreetAddress: Street Address*
+    siteCity: City*
+    siteState: State*
+    siteZip: Zip*
+    siteCountry: 'USA'
+    siteCounty: County
+    siteNeighborhood:
+    siteType: Program Type*
+    siteSubType:
+    lat:
+    lng:
+    EFROID:
+    publicContactMethod:
+    publicPhone: General Phone*
+    publicEmail: Organization Email
+    website: Website
+    socialMedia:
+    contactName:
+    contactPhone:
+    contactEmail: Contact Email*
+    status:
+    publicOpenness:
+    deliveryEligibility:
+    eligibilityRequirements:
+    hoursEligibility1:
+    hours1: Hours
+    hoursEligibility2:
+    hours2:
+    hoursEligibility3:
+    hours3:
+    validUntil:
+    acceptsFoodDonations: Accepts Food Donations*
+    hasEnoughFood:
+    canReceiveBulk:
+    foodNeeds:
+    hasBabyFormula:
+    staffVolunteerNeeds:
+    recruitingAssistance:
+    otherNeeds:
+    covidChanges:
+    increasedDemandCauses:
+    totalFoodCommunityNeeds:
+    currentCapacity:
+    staffVolunteerReduction:
+    safetyPrecautions:
+    languages:
+    nearbyFoodPrograms:
+    notesGovRequests:
+    notesAnythingElse: Program Details # use this to upload any messy data or jumbled fields
+
+# UNCOMMENT 'sheetColumnsToMatch' FOR .xlsx FILES WITH MULTIPLE SHEETS
+#  - Put the columns to use to match up rows as a 'key: value' pair here
+#  - Sheet names can be connected via dot notation to column names
+#  - In this example asterisks were part of the column names
+
+# sheetColumnsToMatch:
+#     - Organization.Organization Name*
+#     - Program.Name of Program*
+#     - Contact.Organization Name*
