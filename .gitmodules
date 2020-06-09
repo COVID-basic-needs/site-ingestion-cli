@@ -1,0 +1,3 @@
+[submodule "site-ingestion-schema"]
+	path = site-ingestion-schema
+	url = https://github.com/COVID-basic-needs/site-ingestion-schema.git
