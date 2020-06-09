@@ -3,6 +3,7 @@
  */
 
 import convert from './convert';
+const validate = require('./site-ingestion-schema/validator');
 const got = require('got');
 const { promises: fs } = require('fs');
 
@@ -35,15 +36,21 @@ const missingFieldMap = 'Please specify an existing .yaml fieldMap file, or a di
                 data.push(object);
             }
         }
-
     } else {
         throw new Error(missingFieldMap);
     }
 
+    // check if sites conform to schema
+    let [isValid, errorMsg] = validate(data);
+    if (!isValid) {
+        console.error(errorMsg);
+        return;
+    }
+
     console.log(`Done converting, beginning push of ${data.length} records to site ingestion API...`);
-    
+
     // push to site-ingestion-api in batches of 100
-    for (var i = 0; i < data.length; i+=100) {
+    for (var i = 0; i < data.length; i += 100) {
         var endIndex = Math.min(i + 100, data.length);
         var subArr = data.slice(i, endIndex);
         await uploadToLambda(subArr);

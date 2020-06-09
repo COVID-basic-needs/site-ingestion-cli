@@ -9,7 +9,7 @@ fields:
     siteCountry: USA  # or Canada
     siteCounty:
     siteNeighborhood:
-    siteType: Category # hard-code if no column & all are one type
+    siteType: Program Type # hard-code if no column & all are one type
     siteSubType:
     lat:
     lng:
